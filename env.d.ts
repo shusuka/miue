@@ -1,13 +1,20 @@
 
 declare global {
-  // Use namespace augmentation for NodeJS to safely add API_KEY to process.env
-  // without conflicting with existing global process declarations (e.g. from @types/node).
-  namespace NodeJS {
-    interface ProcessEnv {
+  /**
+   * Define or augment the Process interface to include specific environment variables.
+   * This ensures compatibility with existing global definitions that expect 'process' to be of type 'Process'.
+   */
+  interface Process {
+    env: {
       API_KEY: string;
       [key: string]: string | undefined;
-    }
+    };
   }
+
+  /**
+   * Declare the process global variable as type Process to resolve "Subsequent variable declarations must have the same type" errors.
+   */
+  var process: Process;
 }
 
 export {};

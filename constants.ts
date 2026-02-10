@@ -1,3 +1,4 @@
+
 import { AppConfig } from './types';
 
 export const PRODUCTS = ["Melonity", "Umbrella Dota 2", "Divine", "Hake", "Umbrella Deadlock", "DotaAccount"];
@@ -55,9 +56,9 @@ export const DEFAULT_LINKS: Record<string, string> = {};
 
 export const DEFAULT_CONFIG: AppConfig = {
   whatsappNumber: "62",
-  discordLink: "https://discord.gg/example",
-  youtubeLink: "#",
-  facebookLink: "#",
+  discordLink: "https://discord.gg/CvetNYu5Gp",
+  youtubeLink: "https://www.youtube.com/@MiuAILaughs",
+  facebookLink: "https://www.facebook.com/greenhode",
   reviews: [
     {
       "id": 1700000000001,
@@ -212,8 +213,6 @@ export const DEFAULT_CONFIG: AppConfig = {
   },
   adminAuth: {
     username: "admin",
-    // This is the hash for "admin". Do not store plain text passwords.
-    // Generated using the simpleHash function.
     password: "92668751" 
   }
 };

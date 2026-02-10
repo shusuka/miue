@@ -51,7 +51,6 @@ export const PAYMENT_METHODS_LIST = {
   ]
 };
 
-// Fallback links (now mostly handled by overrides in DEFAULT_CONFIG)
 export const DEFAULT_LINKS: Record<string, string> = {};
 
 export const DEFAULT_CONFIG: AppConfig = {
@@ -61,31 +60,55 @@ export const DEFAULT_CONFIG: AppConfig = {
   facebookLink: "https://www.facebook.com/greenhode",
   reviews: [
     {
-      "id": 1700000000001,
-      "name": "Alex",
-      "product": "Melonity",
+      "id": 1,
+      "name": "amloufe",
+      "product": "Umbrella Dota 2",
       "rating": 5,
-      "comment": "Best script ever, very safe and easy to use!",
-      "createdAt": "2026-02-09T07:45:00.000Z"
+      "comment": "+rep very good seller, instant purchase and perfect prices",
+      "createdAt": "2025-02-10T10:00:00.000Z"
     },
     {
-      "id": 1700000000002,
-      "name": "DendiFromPudge",
+      "id": 2,
+      "name": "rob.concha",
       "product": "Umbrella Dota 2",
-      "rating": 4,
-      "comment": "Good functionality but needs better documentation. Support is helpful though.",
-      "createdAt": "2026-02-09T07:46:00.000Z"
-    }
-  ],
-  requests: [
+      "rating": 5,
+      "comment": "Very good service and legit!",
+      "createdAt": "2025-02-10T10:05:00.000Z"
+    },
     {
-      "id": 1700000000003,
+      "id": 3,
+      "name": "jeissi2",
+      "product": "Melonity",
+      "rating": 5,
+      "comment": "10/10 my man",
+      "createdAt": "2025-02-10T10:10:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "2010yamatokurosawa",
+      "product": "Umbrella Deadlock",
+      "rating": 5,
+      "comment": "great cheap prices and accessible",
+      "createdAt": "2025-02-10T10:15:00.000Z"
+    },
+    {
+      "id": 5,
+      "name": "Adrian.onica197",
       "product": "Umbrella Dota 2",
-      "discord": "dda",
-      "orderId": "dafasfasf",
-      "status": "pending"
+      "rating": 5,
+      "comment": "Thanks a lot for the work Best Regards!",
+      "createdAt": "2025-02-10T10:20:00.000Z"
+    },
+    {
+      "id": 6,
+      "name": "lonlon11",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "been his or her client for almost 4 year! and still rocking!!! now its even safer and faster! thank you!",
+      "createdAt": "2025-02-10T10:25:00.000Z"
     }
   ],
+  requests: [],
   productStyles: {},
   overrides: {
     "Melonity_1 Day": {

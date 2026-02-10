@@ -1,7 +1,9 @@
+
 import { AppConfig, Review, RequestConfig } from '../types';
 import { DEFAULT_CONFIG } from '../constants';
 
-const STORAGE_KEY = 'miuw_store_v7_react';
+// Updated key to v8 to force refresh of default config (links and reviews)
+const STORAGE_KEY = 'miuw_store_v8_final';
 
 // Helper to ensure data integrity and unique IDs
 const sanitizeIds = (items: any[]): any[] => {
@@ -38,7 +40,6 @@ export const loadConfig = (): AppConfig => {
       const parsed = JSON.parse(stored);
       
       // Deep merge with default to ensure all required fields exist
-      // This prevents crashes if new config fields are added in the future
       const merged: AppConfig = {
           ...DEFAULT_CONFIG,
           ...parsed,
@@ -47,7 +48,7 @@ export const loadConfig = (): AppConfig => {
           productStyles: { ...DEFAULT_CONFIG.productStyles, ...(parsed.productStyles || {}) }
       };
       
-      // Sanitize critical arrays to prevent "map of undefined" errors
+      // Sanitize critical arrays
       merged.reviews = sanitizeIds(merged.reviews || DEFAULT_CONFIG.reviews);
       merged.requests = sanitizeIds(merged.requests || []);
       
@@ -55,8 +56,6 @@ export const loadConfig = (): AppConfig => {
     }
   } catch (e) {
     console.error("Failed to load config, falling back to default", e);
-    // If JSON is corrupted, we could optionally clear localStorage here, 
-    // but returning default is safer to avoid data loss without user consent.
   }
   return DEFAULT_CONFIG;
 };
@@ -66,9 +65,8 @@ export const saveConfig = (config: AppConfig): void => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
   } catch (e) {
     console.error("Failed to save config", e);
-    // Alert the user if storage is full (QuotaExceededError)
     if (e instanceof DOMException && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
-        alert("Warning: Local storage is full. Your changes may not be saved. Please clear some browser data.");
+        alert("Warning: Local storage is full. Your changes may not be saved.");
     }
   }
 };

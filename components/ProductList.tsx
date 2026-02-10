@@ -41,7 +41,7 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
     <main id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-20">
       <h2 className="text-3xl font-extrabold text-center mb-12">Choose Product</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
         {PRODUCTS.map(product => {
            const style: ProductStyle | undefined = config.productStyles[product];
            const bgClass = style?.gradient 
@@ -65,7 +65,7 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
            };
 
            return (
-            <section key={product} className="bg-brand-card rounded-2xl overflow-hidden shadow-lg border border-white/10 hover:border-brand-accent/70 transition duration-300 group relative">
+            <section key={product} className="bg-brand-card rounded-2xl overflow-hidden shadow-lg border border-white/10 hover:border-brand-accent/70 transition duration-300 group relative flex flex-col h-full">
                 {isAdmin && (
                     <button onClick={() => onEditStyle(product)} className="absolute top-2 right-2 z-20 bg-black/50 hover:bg-black/70 p-2 rounded-full text-white border border-white/10">
                         <i className="fa-solid fa-paint-brush"></i>
@@ -73,7 +73,7 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
                 )}
                 
                 <div 
-                    className={`h-44 flex items-center justify-center relative overflow-hidden bg-cover bg-center ${!hasCustomBg ? bgClass : ''}`}
+                    className={`h-44 flex-shrink-0 flex items-center justify-center relative overflow-hidden bg-cover bg-center ${!hasCustomBg ? bgClass : ''}`}
                     style={headerStyle}
                 >
                     <div className="absolute inset-0 bg-black/25"></div>
@@ -93,14 +93,14 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
                     </div>
                 </div>
 
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                     <h3 className="text-2xl font-bold mb-2">{product === 'DotaAccount' ? 'Dota 2 Accounts' : product}</h3>
-                    <p className="text-gray-300/75 mb-6 text-sm min-h-[40px]">
+                    <p className="text-gray-300/75 mb-6 text-sm flex-grow">
                         {PRODUCT_DESCRIPTIONS[product] || "Premium digital product."}
                     </p>
                     <button 
                         onClick={() => onBuy(product)}
-                        className="w-full bg-white/5 hover:bg-white hover:text-black text-white font-bold py-3 rounded-xl transition duration-200 flex justify-center items-center gap-2 border border-white/10"
+                        className="w-full bg-white/5 hover:bg-white hover:text-black text-white font-bold py-3 rounded-xl transition duration-200 flex justify-center items-center gap-2 border border-white/10 mt-auto"
                     >
                         <i className="fa-solid fa-cart-shopping"></i> <span>Buy Now</span>
                     </button>

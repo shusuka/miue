@@ -1,64 +1,74 @@
-
-import { AppConfig } from '../types';
+import { AppConfig, Review, RequestConfig } from '../types';
 import { DEFAULT_CONFIG } from '../constants';
 
-const STORAGE_KEY = 'miuw_store_v9_live_sync';
-// Public JSON storage for live sync (Miuw Store Shared Pool)
-const SYNC_API_URL = 'https://api.npoint.io/88939c4a860b249b6727'; 
+const STORAGE_KEY = 'miuw_store_v7_react';
 
-export const loadConfig = async (): Promise<AppConfig> => {
-  // 1. Always try cloud sync first for Live experience
-  try {
-    const response = await fetch(SYNC_API_URL);
-    if (response.ok) {
-      const remoteData = await response.json();
-      console.log("Global sync complete");
-      return mergeWithDefaults(remoteData);
-    }
-  } catch (e) {
-    console.error("Cloud sync unreachable, falling back to local storage", e);
-  }
+// Helper to ensure data integrity and unique IDs
+const sanitizeIds = (items: any[]): any[] => {
+    if (!Array.isArray(items)) return [];
+    
+    // Use a Set to track seen IDs to prevent duplicates
+    const seen = new Set();
+    
+    return items.map(item => {
+        // Ensure item is an object
+        if (typeof item !== 'object' || item === null) return null;
 
-  // 2. Local fallback if offline or cloud fails
+        let id = item.id;
+        
+        // Generate ID if missing or invalid
+        if (!id) {
+            id = Date.now() + Math.floor(Math.random() * 1000);
+        }
+        
+        // Ensure ID is unique in this list
+        if (seen.has(String(id))) {
+            id = Date.now() + Math.floor(Math.random() * 10000);
+        }
+        
+        seen.add(String(id));
+        return { ...item, id };
+    }).filter(Boolean); // Remove nulls
+};
+
+export const loadConfig = (): AppConfig => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      return mergeWithDefaults(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+      
+      // Deep merge with default to ensure all required fields exist
+      // This prevents crashes if new config fields are added in the future
+      const merged: AppConfig = {
+          ...DEFAULT_CONFIG,
+          ...parsed,
+          overrides: { ...DEFAULT_CONFIG.overrides, ...(parsed.overrides || {}) },
+          adminAuth: { ...DEFAULT_CONFIG.adminAuth, ...(parsed.adminAuth || {}) },
+          productStyles: { ...DEFAULT_CONFIG.productStyles, ...(parsed.productStyles || {}) }
+      };
+      
+      // Sanitize critical arrays to prevent "map of undefined" errors
+      merged.reviews = sanitizeIds(merged.reviews || DEFAULT_CONFIG.reviews);
+      merged.requests = sanitizeIds(merged.requests || []);
+      
+      return merged;
     }
   } catch (e) {
-    console.error("Local load failed", e);
+    console.error("Failed to load config, falling back to default", e);
+    // If JSON is corrupted, we could optionally clear localStorage here, 
+    // but returning default is safer to avoid data loss without user consent.
   }
-
   return DEFAULT_CONFIG;
 };
 
-const mergeWithDefaults = (parsed: any): AppConfig => {
-  return {
-    ...DEFAULT_CONFIG,
-    ...parsed,
-    // Deep merge critical arrays to ensure UI stability
-    reviews: Array.isArray(parsed.reviews) ? parsed.reviews : DEFAULT_CONFIG.reviews,
-    requests: Array.isArray(parsed.requests) ? parsed.requests : DEFAULT_CONFIG.requests,
-    overrides: { ...DEFAULT_CONFIG.overrides, ...(parsed.overrides || {}) },
-    productStyles: { ...DEFAULT_CONFIG.productStyles, ...(parsed.productStyles || {}) },
-    adminAuth: { ...DEFAULT_CONFIG.adminAuth, ...(parsed.adminAuth || {}) }
-  };
-};
-
-export const saveConfig = async (config: AppConfig): Promise<boolean> => {
-  // Save locally immediately
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
-
-  // Push to global cloud bin for other users to see
+export const saveConfig = (config: AppConfig): void => {
   try {
-    const response = await fetch(SYNC_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(config)
-    });
-    return response.ok;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
   } catch (e) {
-    console.error("Failed to push to global sync", e);
-    return false;
+    console.error("Failed to save config", e);
+    // Alert the user if storage is full (QuotaExceededError)
+    if (e instanceof DOMException && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+        alert("Warning: Local storage is full. Your changes may not be saved. Please clear some browser data.");
+    }
   }
 };

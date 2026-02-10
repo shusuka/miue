@@ -33,7 +33,14 @@ const App: React.FC = () => {
   const [reviewForm, setReviewForm] = useState({ name: '', product: PRODUCTS[0], rating: 0, comment: '' });
   const [hoverRating, setHoverRating] = useState(0); // Add hover state for stars
   const [loginForm, setLoginForm] = useState({ user: '', pass: '' });
-  const [styleForm, setStyleForm] = useState<ProductStyle>({ bgUrl: '', iconUrl: '', gradient: '' });
+  const [styleForm, setStyleForm] = useState<ProductStyle>({ 
+      bgUrl: '', 
+      iconUrl: '', 
+      gradient: '',
+      bgSize: 'cover',
+      bgPosition: 'center',
+      iconScale: 1
+  });
 
   // Load config on mount
   useEffect(() => {
@@ -116,6 +123,28 @@ const App: React.FC = () => {
       addToast(`Style reset for ${showStyleEditor}`, "info");
   }
 
+  // Handle File Upload and Conversion to Base64
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'bgUrl' | 'iconUrl') => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      // Limit size to prevent localStorage overflow (e.g., 800KB)
+      if (file.size > 800 * 1024) {
+          addToast("Image too large! Please upload < 800KB", "error");
+          return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+          if (typeof reader.result === 'string') {
+              setStyleForm(prev => ({ ...prev, [field]: reader.result as string }));
+              addToast("Image uploaded successfully!", "success");
+          }
+      };
+      reader.onerror = () => addToast("Failed to read file", "error");
+      reader.readAsDataURL(file);
+  };
+
   // Reset expanded category when modal closes
   useEffect(() => {
     if (!showPaymentMethods) {
@@ -143,7 +172,15 @@ const App: React.FC = () => {
         isAdmin={isAdminLoggedIn}
         onEditStyle={(p) => {
             setShowStyleEditor(p);
-            setStyleForm(config.productStyles[p] || { bgUrl: '', iconUrl: '', gradient: '' });
+            // Load existing style or defaults
+            setStyleForm({
+                bgUrl: config.productStyles[p]?.bgUrl || '', 
+                iconUrl: config.productStyles[p]?.iconUrl || '', 
+                gradient: config.productStyles[p]?.gradient || '',
+                bgSize: config.productStyles[p]?.bgSize || 'cover',
+                bgPosition: config.productStyles[p]?.bgPosition || 'center',
+                iconScale: config.productStyles[p]?.iconScale || 1
+            });
         }}
       />
       
@@ -363,32 +400,134 @@ const App: React.FC = () => {
       {showStyleEditor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
             <div className="fixed inset-0 bg-black/90" onClick={() => setShowStyleEditor(null)}></div>
-            <div className="relative bg-brand-card rounded-2xl w-full max-w-sm p-6 border border-white/10">
-                <h3 className="font-bold mb-4 text-white">Edit Style: <span className="text-brand-accent">{showStyleEditor}</span></h3>
-                <input 
-                    className="w-full bg-black/30 border border-white/10 rounded p-2 mb-2 text-white" 
-                    placeholder="Background Image URL"
-                    value={styleForm.bgUrl}
-                    onChange={e => setStyleForm({...styleForm, bgUrl: e.target.value})}
-                />
-                <input 
-                    className="w-full bg-black/30 border border-white/10 rounded p-2 mb-2 text-white" 
-                    placeholder="Icon URL"
-                    value={styleForm.iconUrl}
-                    onChange={e => setStyleForm({...styleForm, iconUrl: e.target.value})}
-                />
-                <select 
-                    className="w-full bg-black/30 border border-white/10 rounded p-2 mb-4 text-white"
-                    value={styleForm.gradient || ''}
-                    onChange={e => setStyleForm({...styleForm, gradient: e.target.value})}
-                >
-                    <option value="">Default Gradient</option>
-                    <option value="bg-gradient-to-r from-pink-500 to-rose-500">Pink-Rose</option>
-                    <option value="bg-gradient-to-r from-blue-600 to-violet-600">Blue-Violet</option>
-                    <option value="bg-gradient-to-r from-emerald-500 to-lime-600">Emerald-Lime</option>
-                </select>
-                <button onClick={handleSaveStyle} className="w-full bg-brand-accent py-2 rounded text-white mb-2">Save</button>
-                <button onClick={handleResetStyle} className="w-full border border-red-500/50 text-red-400 py-2 rounded hover:bg-red-500/10">Reset to Default</button>
+            <div className="relative bg-brand-card rounded-2xl w-full max-w-lg p-6 border border-white/10 overflow-y-auto max-h-[90vh]">
+                <h3 className="font-bold mb-4 text-white text-lg border-b border-white/10 pb-2">
+                    Edit Style: <span className="text-brand-accent">{showStyleEditor}</span>
+                </h3>
+
+                <div className="space-y-4">
+                    {/* Background Image Section */}
+                    <div className="bg-white/5 p-3 rounded-lg border border-white/5">
+                        <label className="text-xs text-gray-400 uppercase font-bold mb-2 block">Background Image</label>
+                        
+                        <div className="flex flex-col gap-2">
+                            {/* URL Input */}
+                            <input 
+                                className="w-full bg-black/40 border border-white/10 rounded p-2 text-xs text-white" 
+                                placeholder="Paste Image URL..."
+                                value={styleForm.bgUrl}
+                                onChange={e => setStyleForm({...styleForm, bgUrl: e.target.value})}
+                            />
+                            
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] text-gray-500">OR Upload (Max 800KB):</span>
+                                <input 
+                                    type="file" 
+                                    accept="image/*"
+                                    onChange={(e) => handleImageUpload(e, 'bgUrl')}
+                                    className="text-xs text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-brand-accent/20 file:text-brand-accent hover:file:bg-brand-accent/30 cursor-pointer"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Background Settings */}
+                        <div className="grid grid-cols-2 gap-2 mt-2">
+                            <div>
+                                <label className="text-[10px] text-gray-500 block mb-1">Size Mode</label>
+                                <select 
+                                    className="w-full bg-black/40 border border-white/10 rounded p-1 text-xs text-white"
+                                    value={styleForm.bgSize || 'cover'}
+                                    onChange={e => setStyleForm({...styleForm, bgSize: e.target.value})}
+                                >
+                                    <option value="cover">Cover (Full)</option>
+                                    <option value="contain">Contain (Fit)</option>
+                                    <option value="100% 100%">Stretch (100%)</option>
+                                    <option value="auto">Auto</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="text-[10px] text-gray-500 block mb-1">Position</label>
+                                <select 
+                                    className="w-full bg-black/40 border border-white/10 rounded p-1 text-xs text-white"
+                                    value={styleForm.bgPosition || 'center'}
+                                    onChange={e => setStyleForm({...styleForm, bgPosition: e.target.value})}
+                                >
+                                    <option value="center">Center</option>
+                                    <option value="top">Top</option>
+                                    <option value="bottom">Bottom</option>
+                                    <option value="left">Left</option>
+                                    <option value="right">Right</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Icon Section */}
+                    <div className="bg-white/5 p-3 rounded-lg border border-white/5">
+                        <label className="text-xs text-gray-400 uppercase font-bold mb-2 block">Product Icon</label>
+                        
+                        <div className="flex flex-col gap-2">
+                             <input 
+                                className="w-full bg-black/40 border border-white/10 rounded p-2 text-xs text-white" 
+                                placeholder="Paste Icon URL..."
+                                value={styleForm.iconUrl}
+                                onChange={e => setStyleForm({...styleForm, iconUrl: e.target.value})}
+                            />
+                             <div className="flex items-center gap-2">
+                                <span className="text-[10px] text-gray-500">OR Upload:</span>
+                                <input 
+                                    type="file" 
+                                    accept="image/*"
+                                    onChange={(e) => handleImageUpload(e, 'iconUrl')}
+                                    className="text-xs text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-brand-accent/20 file:text-brand-accent hover:file:bg-brand-accent/30 cursor-pointer"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Icon Scale Slider */}
+                        <div className="mt-3">
+                            <div className="flex justify-between items-center mb-1">
+                                <label className="text-[10px] text-gray-500">Icon Scale</label>
+                                <span className="text-[10px] text-brand-accent font-bold">{styleForm.iconScale || 1}x</span>
+                            </div>
+                            <input 
+                                type="range" 
+                                min="0.5" 
+                                max="2.0" 
+                                step="0.1" 
+                                value={styleForm.iconScale || 1}
+                                onChange={e => setStyleForm({...styleForm, iconScale: parseFloat(e.target.value)})}
+                                className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-brand-accent"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Gradient Fallback */}
+                    <div className="bg-white/5 p-3 rounded-lg border border-white/5">
+                        <label className="text-xs text-gray-400 uppercase font-bold mb-2 block">Fallback Gradient</label>
+                        <select 
+                            className="w-full bg-black/40 border border-white/10 rounded p-2 text-xs text-white"
+                            value={styleForm.gradient || ''}
+                            onChange={e => setStyleForm({...styleForm, gradient: e.target.value})}
+                        >
+                            <option value="">Default Gradient</option>
+                            <option value="bg-gradient-to-r from-pink-500 to-rose-500">Pink-Rose</option>
+                            <option value="bg-gradient-to-r from-blue-600 to-violet-600">Blue-Violet</option>
+                            <option value="bg-gradient-to-r from-emerald-500 to-lime-600">Emerald-Lime</option>
+                            <option value="bg-gradient-to-r from-orange-500 to-red-600">Orange-Red</option>
+                        </select>
+                        <p className="text-[10px] text-gray-500 mt-1">*Only used if no background image is set.</p>
+                    </div>
+                </div>
+
+                <div className="flex gap-2 mt-6">
+                    <button onClick={handleSaveStyle} className="flex-1 bg-brand-accent hover:bg-brand-accentHover py-2 rounded text-white font-bold transition">
+                        Save Changes
+                    </button>
+                    <button onClick={handleResetStyle} className="flex-1 border border-red-500/50 text-red-400 py-2 rounded hover:bg-red-500/10 transition">
+                        Reset Default
+                    </button>
+                </div>
             </div>
         </div>
       )}

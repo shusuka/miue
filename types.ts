@@ -1,3 +1,4 @@
+
 export interface Review {
   id: number;
   name: string;
@@ -19,6 +20,10 @@ export interface ProductStyle {
   bgUrl?: string;
   iconUrl?: string;
   gradient?: string;
+  // New customization fields
+  bgSize?: string;     // 'cover', 'contain', '100%'
+  bgPosition?: string; // 'center', 'top', 'bottom', etc.
+  iconScale?: number;  // Scale factor (e.g. 1.0, 1.5)
 }
 
 export interface LinkOverride {

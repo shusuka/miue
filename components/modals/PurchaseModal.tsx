@@ -122,7 +122,7 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
                       ${selectedDuration === d 
                         ? 'bg-brand-accent border-brand-accent text-white shadow-[0_0_18px_rgba(139,92,246,0.35)]' 
                         : 'border-white/10 text-gray-200 hover:border-brand-accent hover:text-white'}
-                      ${(d.includes("Lifetime") || d.includes("Ranked")) ? 'col-span-3 border-brand-accent/40 bg-brand-accent/10 text-brand-accent' : ''}
+                      ${(d.includes("Lifetime") || product === 'DotaAccount') ? 'col-span-3 border-brand-accent/40 bg-brand-accent/10 text-brand-accent' : ''}
                     `}
                   >
                     {d}

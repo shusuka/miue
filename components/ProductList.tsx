@@ -49,7 +49,20 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
               : `bg-gradient-to-br ${DEFAULT_COLORS[product] || 'from-gray-900/70'} to-black/30`;
            
            const hasCustomBg = !!style?.bgUrl;
-           const headerStyle = hasCustomBg ? { backgroundImage: `url('${style.bgUrl}')` } : {};
+           
+           // Apply custom background styles
+           const headerStyle: React.CSSProperties = hasCustomBg ? { 
+               backgroundImage: `url('${style.bgUrl}')`,
+               backgroundSize: style.bgSize || 'cover',
+               backgroundPosition: style.bgPosition || 'center',
+               backgroundRepeat: 'no-repeat'
+           } : {};
+
+           // Icon scaling
+           const iconScale = style?.iconScale || 1;
+           const iconStyle: React.CSSProperties = {
+               transform: `scale(${iconScale})`
+           };
 
            return (
             <section key={product} className="bg-brand-card rounded-2xl overflow-hidden shadow-lg border border-white/10 hover:border-brand-accent/70 transition duration-300 group relative">
@@ -64,11 +77,18 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
                     style={headerStyle}
                 >
                     <div className="absolute inset-0 bg-black/25"></div>
-                    <div className="relative z-10">
+                    <div className="relative z-10 transition duration-500 group-hover:scale-105">
                         {style?.iconUrl ? (
-                            <img src={style.iconUrl} alt={product} className="w-24 h-24 object-contain drop-shadow-lg transform group-hover:scale-110 transition duration-500" />
+                            <img 
+                                src={style.iconUrl} 
+                                alt={product} 
+                                className="w-24 h-24 object-contain drop-shadow-lg"
+                                style={iconStyle}
+                            />
                         ) : (
-                            DEFAULT_ICONS[product]
+                            <div style={iconStyle}>
+                                {DEFAULT_ICONS[product]}
+                            </div>
                         )}
                     </div>
                 </div>

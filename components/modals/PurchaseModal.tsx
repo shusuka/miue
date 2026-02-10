@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { PRODUCT_DURATIONS, DEFAULT_LINKS, DEFAULT_CONFIG } from '../../constants';
 import { AppConfig } from '../../types';
@@ -44,7 +45,6 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
     
     let url = "";
     
-    // 1. Check Admin Override
     if (override) {
         if (type === 'crypto') url = override.crypto || "";
         else if (type === 'fiat') url = override.fiat || "";
@@ -52,14 +52,10 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
         else if (type === 'fiat-region') url = override.fiatRegion || "";
     }
 
-    // 2. Check Default Fallback if override is empty
     if (!url) {
-        // Simple logic: if specific type is requested but no override, try the generic default link for this product key
-        // In a real scenario, you might have separate defaults for crypto/fiat
         url = DEFAULT_LINKS[key] || "";
     }
     
-    // 3. Last Resort: Redirect to Discord or similar if still no link
     if (!url || url === "https://") {
         if (confirm("Link not configured for this specific option. Contact support on Discord?")) {
             window.open(config.discordLink || DEFAULT_CONFIG.discordLink, "_blank");
@@ -71,6 +67,7 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
   };
 
   const isMelonity = product === "Melonity";
+  const isDotaAccount = product === "DotaAccount" || product.includes("Account");
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -83,7 +80,7 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
           <div className="bg-black/25 px-4 py-4 sm:px-6 flex justify-between items-center border-b border-white/10">
             <h3 className="text-lg leading-6 font-bold text-white flex items-center gap-2">
               <i className="fa-solid fa-cart-shopping text-brand-accent"></i>
-              <span>Purchase <span className="text-brand-accent">{product}</span></span>
+              <span>Purchase <span className="text-brand-accent">{product === 'DotaAccount' ? 'Dota 2 Account' : product}</span></span>
             </h3>
             <button onClick={onClose} className="text-gray-300 hover:text-white">
               <i className="fa-solid fa-xmark text-xl"></i>
@@ -111,23 +108,26 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
 
             {/* Duration Select */}
             <div className="mb-6">
-              <label className="block text-sm font-bold text-gray-200 mb-3">1. Select Duration</label>
+              <label className="block text-sm font-bold text-gray-200 mb-3">1. Select Option</label>
               <div className="grid grid-cols-3 gap-2">
-                {durations.map(d => (
-                  <button
-                    key={d}
-                    onClick={() => { setSelectedDuration(d); setShowPaymentOptions(false); }}
-                    className={`
-                      border rounded-lg py-2 text-sm font-medium transition
-                      ${selectedDuration === d 
-                        ? 'bg-brand-accent border-brand-accent text-white shadow-[0_0_18px_rgba(139,92,246,0.35)]' 
-                        : 'border-white/10 text-gray-200 hover:border-brand-accent hover:text-white'}
-                      ${(d.includes("Lifetime") || product === 'DotaAccount') ? 'col-span-3 border-brand-accent/40 bg-brand-accent/10 text-brand-accent' : ''}
-                    `}
-                  >
-                    {d}
-                  </button>
-                ))}
+                {durations.map(d => {
+                  const isFullWidth = isDotaAccount || d.includes("Lifetime");
+                  return (
+                    <button
+                      key={d}
+                      onClick={() => { setSelectedDuration(d); setShowPaymentOptions(false); }}
+                      className={`
+                        border rounded-lg py-3 text-sm font-medium transition
+                        ${selectedDuration === d 
+                          ? 'bg-brand-accent border-brand-accent text-white shadow-[0_0_18px_rgba(139,92,246,0.35)]' 
+                          : 'border-white/10 text-gray-200 hover:border-brand-accent hover:text-white'}
+                        ${isFullWidth ? 'col-span-3 border-brand-accent/40 bg-brand-accent/10 text-brand-accent' : 'col-span-1'}
+                      `}
+                    >
+                      {d}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 

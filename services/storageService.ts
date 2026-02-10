@@ -2,22 +2,21 @@
 import { AppConfig } from '../types';
 import { DEFAULT_CONFIG } from '../constants';
 
-const STORAGE_KEY = 'miuw_store_v8_cloud';
-// Public Sync Bin ID (Generated for Miuw Store)
-// This allows different users to share the same data pool
+const STORAGE_KEY = 'miuw_store_v9_live';
+// Public Sync Bin URL (Using a consistent endpoint for Miuw Store)
 const SYNC_API_URL = 'https://api.npoint.io/88939c4a860b249b6727'; 
 
 export const loadConfig = async (): Promise<AppConfig> => {
-  // 1. Try to load from Cloud first
+  // 1. Try to load from Cloud first for Live Data
   try {
     const response = await fetch(SYNC_API_URL);
     if (response.ok) {
       const remoteData = await response.json();
-      console.log("Cloud data loaded successfully");
+      console.log("Live cloud data synchronized");
       return mergeWithDefaults(remoteData);
     }
   } catch (e) {
-    console.error("Cloud sync failed, trying local storage", e);
+    console.error("Cloud sync failed, falling back to local storage", e);
   }
 
   // 2. Fallback to Local Storage
@@ -34,21 +33,23 @@ export const loadConfig = async (): Promise<AppConfig> => {
 };
 
 const mergeWithDefaults = (parsed: any): AppConfig => {
-    const merged: AppConfig = {
+    return {
         ...DEFAULT_CONFIG,
         ...parsed,
+        // Deep merge critical sections
         overrides: { ...DEFAULT_CONFIG.overrides, ...(parsed.overrides || {}) },
         adminAuth: { ...DEFAULT_CONFIG.adminAuth, ...(parsed.adminAuth || {}) },
-        productStyles: { ...DEFAULT_CONFIG.productStyles, ...(parsed.productStyles || {}) }
+        productStyles: { ...DEFAULT_CONFIG.productStyles, ...(parsed.productStyles || {}) },
+        reviews: Array.isArray(parsed.reviews) ? parsed.reviews : DEFAULT_CONFIG.reviews,
+        requests: Array.isArray(parsed.requests) ? parsed.requests : DEFAULT_CONFIG.requests
     };
-    return merged;
 };
 
 export const saveConfig = async (config: AppConfig): Promise<boolean> => {
-  // Always save locally first
+  // Save locally
   localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
 
-  // Try to push to Cloud
+  // Push to Cloud for Global Sync
   try {
     const response = await fetch(SYNC_API_URL, {
       method: 'POST',
@@ -57,7 +58,7 @@ export const saveConfig = async (config: AppConfig): Promise<boolean> => {
     });
     return response.ok;
   } catch (e) {
-    console.error("Failed to push to Cloud sync", e);
+    console.error("Failed to synchronize data to cloud", e);
     return false;
   }
 };

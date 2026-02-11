@@ -22,6 +22,7 @@ const App: React.FC = () => {
   const [showPaymentMethods, setShowPaymentMethods] = useState(false);
   const [expandedPaymentCategory, setExpandedPaymentCategory] = useState<string | null>(null);
   const [showRequestConfig, setShowRequestConfig] = useState(false);
+  const [showHowToBuy, setShowHowToBuy] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
@@ -161,6 +162,7 @@ const App: React.FC = () => {
         config={config}
         onOpenPaymentMethods={() => setShowPaymentMethods(true)}
         onOpenRequestConfig={() => setShowRequestConfig(true)}
+        onOpenHowToBuy={() => setShowHowToBuy(true)}
       />
       
       <ProductList 
@@ -208,6 +210,7 @@ const App: React.FC = () => {
         />
       )}
 
+      {/* Payment Methods Modal */}
       {showPaymentMethods && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="fixed inset-0 bg-black/90" onClick={() => setShowPaymentMethods(false)}></div>
@@ -256,6 +259,57 @@ const App: React.FC = () => {
                 Supported payment methods may vary by region.
             </p>
           </div>
+        </div>
+      )}
+
+      {/* How To Buy Modal */}
+      {showHowToBuy && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+            <div className="fixed inset-0 bg-black/90" onClick={() => setShowHowToBuy(false)}></div>
+            <div className="relative bg-brand-card rounded-2xl w-full max-w-2xl p-6 border border-white/10 shadow-2xl animate-fadeIn">
+                 <div className="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                        <i className="fa-solid fa-circle-question text-brand-accent"></i> How to Buy
+                    </h3>
+                    <button onClick={() => setShowHowToBuy(false)} className="text-gray-300 hover:text-white transition">
+                        <i className="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+                <div className="grid gap-6 md:grid-cols-2">
+                    <div className="space-y-4">
+                        <div className="flex gap-4">
+                            <div className="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center font-bold flex-shrink-0 shadow-[0_0_10px_rgba(139,92,246,0.5)]">1</div>
+                            <div>
+                                <h4 className="font-bold text-white">Select Product</h4>
+                                <p className="text-sm text-gray-400">Choose the software/tool you want from our catalog.</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                             <div className="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center font-bold flex-shrink-0 shadow-[0_0_10px_rgba(139,92,246,0.5)]">2</div>
+                             <div>
+                                <h4 className="font-bold text-white">Choose Duration</h4>
+                                <p className="text-sm text-gray-400">Select how long you want to use it (e.g., 7 Days, 30 Days).</p>
+                             </div>
+                        </div>
+                         <div className="flex gap-4">
+                             <div className="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center font-bold flex-shrink-0 shadow-[0_0_10px_rgba(139,92,246,0.5)]">3</div>
+                             <div>
+                                <h4 className="font-bold text-white">Secure Payment</h4>
+                                <p className="text-sm text-gray-400">Pay securely via Crypto, Credit Cards, or Local E-Wallets.</p>
+                             </div>
+                        </div>
+                    </div>
+                    <div className="bg-white/5 rounded-xl p-4 border border-white/5 flex flex-col justify-center items-center text-center relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-brand-accent/5 group-hover:bg-brand-accent/10 transition duration-500"></div>
+                        <i className="fa-solid fa-gift text-4xl text-yellow-400 mb-3 animate-bounceSmall relative z-10"></i>
+                        <h4 className="font-bold text-white mb-2 relative z-10">Instant Delivery</h4>
+                        <p className="text-xs text-gray-300 relative z-10 mb-2">Your license key will be delivered instantly to your email or screen immediately after payment confirmation.</p>
+                        <p className="text-[10px] text-gray-400 relative z-10 border-t border-white/10 pt-2 mt-1 w-full">
+                            <span className="text-brand-accent font-bold">For G2G:</span> After ordering, click <b>View Order</b> and click the code section to access the code.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
       )}
 

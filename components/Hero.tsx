@@ -6,9 +6,10 @@ interface HeroProps {
   config: AppConfig;
   onOpenPaymentMethods: () => void;
   onOpenRequestConfig: () => void;
+  onOpenHowToBuy: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ config, onOpenPaymentMethods, onOpenRequestConfig }) => {
+export const Hero: React.FC<HeroProps> = ({ config, onOpenPaymentMethods, onOpenRequestConfig, onOpenHowToBuy }) => {
   const scrollToProducts = () => {
     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -42,14 +43,12 @@ export const Hero: React.FC<HeroProps> = ({ config, onOpenPaymentMethods, onOpen
             View Catalog
           </button>
 
-          <a 
-            href={config.discordLink} 
-            target="_blank" 
-            rel="noreferrer"
-            className="px-6 py-3 border border-white/10 text-sm sm:text-base font-bold rounded-full text-gray-200 bg-white/5 hover:bg-[#5865F2] hover:border-[#5865F2] hover:text-white transition transform hover:scale-[1.05] flex items-center gap-2"
+          <button 
+            onClick={onOpenHowToBuy}
+            className="px-6 py-3 border border-white/10 text-sm sm:text-base font-bold rounded-full text-gray-200 bg-white/5 hover:bg-white/10 transition transform hover:scale-[1.05] flex items-center gap-2"
           >
-            <i className="fa-brands fa-discord"></i> Contact Support
-          </a>
+            <i className="fa-solid fa-circle-question"></i> How to Buy
+          </button>
 
           <button onClick={onOpenPaymentMethods}
             className="px-6 py-3 border border-white/10 text-sm sm:text-base font-bold rounded-full text-gray-200 hover:bg-white/10 transition">

@@ -183,7 +183,12 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
                                 <button onClick={() => handleProcessPayment('fiat-world')} className="group w-full flex justify-between items-center px-4 py-4 border border-white/10 rounded-xl hover:bg-white/5 hover:border-brand-accent transition-all">
                                     <div className="flex items-center">
                                         <div className="bg-emerald-500/10 p-2 rounded-lg text-emerald-300 border border-emerald-500/20"><i className="fa-solid fa-globe text-xl w-6 text-center"></i></div>
-                                        <div className="ml-3 text-left"><p className="text-sm font-bold text-white">Credit Card (World)</p></div>
+                                        <div className="ml-3 text-left">
+                                          <p className="text-sm font-bold text-white flex items-center gap-2">
+                                            Credit Card (World)
+                                            <span className="text-[9px] text-red-500 uppercase font-extrabold tracking-tighter">(ignore country restriction)</span>
+                                          </p>
+                                        </div>
                                     </div>
                                     <i className="fa-solid fa-chevron-right text-gray-400 group-hover:text-white"></i>
                                 </button>
@@ -191,7 +196,10 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
                                     <div className="flex items-center">
                                         <div className="bg-indigo-500/10 p-2 rounded-lg text-indigo-300 border border-indigo-500/20"><i className="fa-solid fa-location-dot text-xl w-6 text-center"></i></div>
                                         <div className="ml-3 text-left">
-                                            <p className="text-sm font-bold text-white">Credit Card (Region)</p>
+                                            <p className="text-sm font-bold text-white flex items-center gap-2">
+                                              Credit Card (Region)
+                                              <span className="text-[9px] text-red-500 uppercase font-extrabold tracking-tighter">(ignore country restriction)</span>
+                                            </p>
                                             <p className="text-[10px] text-gray-400">SEA, Brazil, Peru, etc.</p>
                                         </div>
                                     </div>

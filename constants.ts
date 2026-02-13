@@ -225,6 +225,10 @@ export const DEFAULT_CONFIG: AppConfig = {
       "crypto": "https://miuwmiaw.selly.store/product/ecfdbc7f",
       "fiat": ""
     },
+    "Umbrella Deadlock_Lifetime": {
+      "crypto": "https://miuwmiaw.selly.store/product/ec551378",
+      "fiat": ""
+    },
     "DotaAccount_Ranked Ready": {
       "crypto": "https://miuwmiaw.selly.store/product/7864c0a9",
       "fiat": ""

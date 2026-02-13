@@ -29,7 +29,7 @@ export const PAYMENT_METHODS_LIST = {
   ],
   "Online Banking": [
     "Rapid Transfer", "Multibanco", "MyBank", "PayNow", "DuitNow QR", 
-    "PromptPay QR", "PIX", "BLIK", "Bangkok Bank", "Bank of Ayudhya (Krungsri)", 
+    "PromptPay QR", "PIX", "BLIK", "Bankok Bank", "Bank of Ayudhya (Krungsri)", 
     "Kasikornbank PAYPLUS", "Siam Commercial Bank", "BPI Online", "Unionbank Online"
   ],
   "Bank Transfer / ATM / CDM": [
@@ -109,7 +109,38 @@ export const DEFAULT_CONFIG: AppConfig = {
     }
   ],
   requests: [],
-  productStyles: {},
+  productStyles: {
+    "Melonity": {
+      "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/290efd6d-9e2c-4e79-b234-bd45bc6cc943/anim=false,width=450,optimized=true/00419-409819207.jpeg",
+      "bgSize": "cover",
+      "bgPosition": "top"
+    },
+    "Umbrella Dota 2": {
+      "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a7401f2d-51d1-42de-86ec-891a893d6bf8/anim=false,width=450,optimized=true/photo_2025-01-22_14-42-30.jpeg",
+      "bgSize": "cover",
+      "bgPosition": "top"
+    },
+    "Divine": {
+      "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f7d7492d-bf8a-4559-f9b6-f9925d308800/anim=false,width=450,optimized=true/287691.jpeg",
+      "bgSize": "cover",
+      "bgPosition": "top"
+    },
+    "Hake": {
+      "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d1f14597-dfe2-49b3-92df-871b2af3cc16/anim=false,width=450,optimized=true/0JD25Y4C3SZGDNMYWN3RK95AS0.jpeg",
+      "bgSize": "cover",
+      "bgPosition": "top"
+    },
+    "Umbrella Deadlock": {
+      "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f1ae7585-1328-48b3-a488-96c548a131c1/anim=false,width=450,optimized=true/00004-3342214399.jpeg",
+      "bgSize": "cover",
+      "bgPosition": "top"
+    },
+    "DotaAccount": {
+      "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1b35fde4-bc43-4a6f-9974-ff45986e8392/anim=false,width=450,optimized=true/00074-2475620417-0000.jpeg",
+      "bgSize": "cover",
+      "bgPosition": "top"
+    }
+  },
   overrides: {
     "Melonity_1 Day": {
       "crypto": "https://miuwmiaw.selly.store/product/d644f53e",

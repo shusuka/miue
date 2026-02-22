@@ -1,7 +1,7 @@
 
 import { AppConfig, PricingProduct } from './types';
 
-export const PRODUCTS = ["Melonity", "Umbrella Dota 2", "Divine", "Hake", "Umbrella Deadlock", "DotaAccount"];
+export const PRODUCTS = ["Melonity", "Umbrella Dota 2", "Divine", "Hake", "Umbrella Deadlock", "DotaAccount", "FoxHole"];
 
 export const PRODUCT_DURATIONS: Record<string, string[]> = {
   "Melonity": ["1 Day", "7 Days", "30 Days", "90 Days", "180 Days", "Lifetime"],
@@ -10,7 +10,56 @@ export const PRODUCT_DURATIONS: Record<string, string[]> = {
   "Hake": ["1 Day", "7 Days", "30 Days", "90 Days", "180 Days"],
   "Umbrella Deadlock": ["1 Day", "7 Days", "14 Days", "30 Days", "90 Days", "180 Days", "Lifetime"],
   "DotaAccount": ["Ranked Ready", "TBD Rank Open"],
+  "FoxHole": ["1 Day", "3 Days", "7 Days", "30 Days"],
   "default": ["1 Day", "7 Days", "30 Days"]
+};
+
+export const PRODUCT_PRICES: Record<string, Record<string, string>> = {
+  "Melonity": {
+    "1 Day": "1.93$",
+    "7 Days": "5.7$",
+    "30 Days": "11$",
+    "90 Days": "33$",
+    "180 Days": "60$"
+  },
+  "Umbrella Dota 2": {
+    "1 Day": "0.95$",
+    "7 Days": "4.25$",
+    "14 Days": "7$",
+    "30 Days": "10$",
+    "90 Days": "29$",
+    "180 Days": "55$",
+    "Lifetime": "360$"
+  },
+  "Divine": {
+    "7 Days": "2.75$",
+    "14 Days": "5$",
+    "30 Days": "9.5$",
+    "90 Days": "25$",
+    "180 Days": "49$"
+  },
+  "Hake": {
+    "1 Day": "1.75$",
+    "7 Days": "4.25$",
+    "30 Days": "11.5$",
+    "90 Days": "30.5$",
+    "180 Days": "57.75$"
+  },
+  "Umbrella Deadlock": {
+    "1 Day": "1.8$",
+    "7 Days": "6$",
+    "14 Days": "9.5$",
+    "30 Days": "12.8$",
+    "90 Days": "38$",
+    "180 Days": "68$",
+    "Lifetime": "535$"
+  },
+  "FoxHole": {
+    "1 Day": "2.8$",
+    "3 Days": "7.5$",
+    "7 Days": "14$",
+    "30 Days": "32$"
+  }
 };
 
 export const PAYMENT_METHODS_LIST = {
@@ -203,6 +252,11 @@ export const DEFAULT_CONFIG: AppConfig = {
       "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1b35fde4-bc43-4a6f-9974-ff45986e8392/anim=false,width=450,optimized=true/00074-2475620417-0000.jpeg",
       "bgSize": "cover",
       "bgPosition": "top"
+    },
+    "FoxHole": {
+      "bgUrl": "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a3e8c98b-ac8a-4a8b-8ed6-036e9eec3325/anim=false,width=450,optimized=true/00495-887514395.jpeg",
+      "bgSize": "cover",
+      "bgPosition": "center"
     }
   },
   overrides: {
@@ -420,6 +474,16 @@ export const PRICING_DATA: PricingProduct[] = [
     prices: [
       { duration: "Ranked Ready", price: "Varies" },
       { duration: "TBD Rank Open", price: "Varies" }
+    ]
+  },
+  {
+    name: "FoxHole",
+    icon: "fa-helmet-safety",
+    prices: [
+      { duration: "1 Day", price: "2.8$" },
+      { duration: "3 Days", price: "7.5$" },
+      { duration: "7 Days", price: "14$" },
+      { duration: "30 Days", price: "32$" }
     ]
   }
 ];

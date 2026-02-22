@@ -31,6 +31,7 @@ const App: React.FC = () => {
   const [showRefundPolicy, setShowRefundPolicy] = useState(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showStyleEditor, setShowStyleEditor] = useState<string | null>(null);
+  const [flashSaleTime, setFlashSaleTime] = useState(900); // 15 minutes
 
   // Form States
   const [requestForm, setRequestForm] = useState({ product: PRODUCTS[0], discord: '', order: '' });
@@ -50,6 +51,14 @@ const App: React.FC = () => {
   useEffect(() => {
     const loaded = loadConfig();
     setConfig(loaded);
+  }, []);
+
+  // Persistent Flash Sale Timer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFlashSaleTime(prev => (prev > 0 ? prev - 1 : 900));
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleUpdateConfig = (newConfig: AppConfig) => {
@@ -204,6 +213,7 @@ const App: React.FC = () => {
           config={config}
           onOpenPrivacy={() => setShowPrivacyPolicy(true)}
           onOpenRefund={() => setShowRefundPolicy(true)}
+          flashSaleTime={flashSaleTime}
         />
       )}
 

@@ -1,12 +1,20 @@
 
 import React from 'react';
-import { HeroProps } from '../types';
+import { AppConfig } from '../types';
+
+export interface HeroProps {
+  config: AppConfig;
+  onOpenPaymentMethods: () => void;
+  onOpenRequestConfig: () => void;
+  onOpenGiveAway: () => void;
+  onOpenHowToBuy: () => void;
+}
 
 export const Hero: React.FC<HeroProps> = ({ 
   config, 
   onOpenPaymentMethods, 
   onOpenRequestConfig, 
-  onOpenPriceMenu, 
+  onOpenGiveAway, 
   onOpenHowToBuy 
 }) => {
   const scrollToProducts = () => {
@@ -59,9 +67,9 @@ export const Hero: React.FC<HeroProps> = ({
             <i className="fa-solid fa-file-signature mr-2"></i> Request Config
           </button>
 
-          <button onClick={onOpenPriceMenu}
+          <button onClick={onOpenGiveAway}
             className="px-6 py-3 border border-white/10 text-sm sm:text-base font-bold rounded-full text-gray-200 hover:bg-white/10 transition">
-            <i className="fa-solid fa-tags mr-2"></i> Price
+            <i className="fa-solid fa-gift mr-2"></i> Give Away
           </button>
         </div>
       </div>

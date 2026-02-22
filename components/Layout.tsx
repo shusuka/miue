@@ -7,6 +7,8 @@ interface LayoutProps {
   onAdminTrigger: () => void;
   onOpenPaymentMethods: () => void;
   onOpenRequestConfig: () => void;
+  onOpenPriceMenu: () => void;
+  onOpenGiveAway: () => void;
   onOpenRefundPolicy: () => void;
   onOpenPrivacyPolicy: () => void;
 }
@@ -17,6 +19,8 @@ export const Layout: React.FC<LayoutProps> = ({
   onAdminTrigger,
   onOpenPaymentMethods,
   onOpenRequestConfig,
+  onOpenPriceMenu,
+  onOpenGiveAway,
   onOpenRefundPolicy,
   onOpenPrivacyPolicy
 }) => {
@@ -65,6 +69,7 @@ export const Layout: React.FC<LayoutProps> = ({
                 <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-sm font-medium hover:text-brand-accent transition">Home</button>
                 <button onClick={() => scrollToSection('products')} className="text-sm font-medium hover:text-brand-accent transition">Products</button>
                 <button onClick={() => scrollToSection('testimonials')} className="text-sm font-medium hover:text-brand-accent transition">Feedback</button>
+                <button onClick={onOpenGiveAway} className="text-sm font-medium hover:text-brand-accent transition">Give Away</button>
                 
                 <a 
                   href={config.discordLink} 

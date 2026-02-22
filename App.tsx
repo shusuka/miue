@@ -6,6 +6,7 @@ import { ProductList } from './components/ProductList';
 import { Testimonials } from './components/Testimonials';
 import { PurchaseModal } from './components/modals/PurchaseModal';
 import { AdminPanel } from './components/modals/AdminPanel';
+import { PriceListModal } from './components/modals/PriceListModal';
 import { AppConfig, RequestConfig, Review, ProductStyle } from './types';
 import { DEFAULT_CONFIG, PRODUCTS, CATEGORY_ICONS, PAYMENT_METHODS_LIST } from './constants';
 import { loadConfig, saveConfig } from './services/storageService';
@@ -22,6 +23,7 @@ const App: React.FC = () => {
   const [showPaymentMethods, setShowPaymentMethods] = useState(false);
   const [expandedPaymentCategory, setExpandedPaymentCategory] = useState<string | null>(null);
   const [showRequestConfig, setShowRequestConfig] = useState(false);
+  const [showPriceMenu, setShowPriceMenu] = useState(false);
   const [showHowToBuy, setShowHowToBuy] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -155,6 +157,8 @@ const App: React.FC = () => {
       onAdminTrigger={() => isAdminLoggedIn ? setShowAdminPanel(true) : setShowLoginModal(true)}
       onOpenPaymentMethods={() => setShowPaymentMethods(true)}
       onOpenRequestConfig={() => setShowRequestConfig(true)}
+      onOpenPriceMenu={() => setShowPriceMenu(true)}
+      onOpenGiveAway={() => addToast("Tunggu event!", "info")}
       onOpenRefundPolicy={() => setShowRefundPolicy(true)}
       onOpenPrivacyPolicy={() => setShowPrivacyPolicy(true)}
     >
@@ -162,6 +166,7 @@ const App: React.FC = () => {
         config={config}
         onOpenPaymentMethods={() => setShowPaymentMethods(true)}
         onOpenRequestConfig={() => setShowRequestConfig(true)}
+        onOpenPriceMenu={() => setShowPriceMenu(true)}
         onOpenHowToBuy={() => setShowHowToBuy(true)}
       />
       
@@ -342,6 +347,10 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {showPriceMenu && (
+        <PriceListModal onClose={() => setShowPriceMenu(false)} />
       )}
 
       {showLoginModal && (

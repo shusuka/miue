@@ -33,6 +33,23 @@ export interface LinkOverride {
   fiatRegion?: string;
 }
 
+export interface PricingItem {
+  duration: string;
+  price: string;
+}
+
+export interface PricingSubCategory {
+  name: string;
+  prices: PricingItem[];
+}
+
+export interface PricingProduct {
+  name: string;
+  icon: string;
+  prices?: PricingItem[];
+  subCategories?: PricingSubCategory[];
+}
+
 export interface AppConfig {
   whatsappNumber: string;
   discordLink: string;

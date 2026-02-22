@@ -1,5 +1,5 @@
 
-import { AppConfig } from './types';
+import { AppConfig, PricingProduct } from './types';
 
 export const PRODUCTS = ["Melonity", "Umbrella Dota 2", "Divine", "Hake", "Umbrella Deadlock", "DotaAccount"];
 
@@ -106,6 +106,70 @@ export const DEFAULT_CONFIG: AppConfig = {
       "rating": 5,
       "comment": "been his or her client for almost 4 year! and still rocking!!! now its even safer and faster! thank you!",
       "createdAt": "2025-02-10T10:25:00.000Z"
+    },
+    {
+      "id": 7,
+      "name": "devmerchor",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "I've been buying from MiuWMiuW for 2 years, and they are a very responsible and polite person. I 100% recommend them.",
+      "createdAt": "2025-02-15T12:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "name": "batman",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "+rep @Miuw_Miuw got lifetime Umbrella. Thanks for sharing giveaway code to the community on my behalf.",
+      "createdAt": "2025-02-16T14:30:00.000Z"
+    },
+    {
+      "id": 9,
+      "name": "moth",
+      "product": "Melonity",
+      "rating": 5,
+      "comment": "+rep quickly review, bought lifetime.",
+      "createdAt": "2025-02-17T09:15:00.000Z"
+    },
+    {
+      "id": 10,
+      "name": "pume",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "+rep, best seller",
+      "createdAt": "2025-02-18T11:20:00.000Z"
+    },
+    {
+      "id": 11,
+      "name": "bmw",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "another dota week +rep miuw miuw",
+      "createdAt": "2025-02-19T16:45:00.000Z"
+    },
+    {
+      "id": 12,
+      "name": "mashkook",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "+rep miuw miuw best for ever",
+      "createdAt": "2025-02-20T08:10:00.000Z"
+    },
+    {
+      "id": 13,
+      "name": "metal0-1",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "+Rep, Miuw Miuw at your service all the time!! the best one i found so far :)) Super Recommended!!",
+      "createdAt": "2025-02-21T10:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "name": "aquakunn",
+      "product": "Umbrella Dota 2",
+      "rating": 5,
+      "comment": "great and fast service, everything done in like 25-30 mins:neko_cute:",
+      "createdAt": "2025-02-21T15:20:00.000Z"
     }
   ],
   requests: [],
@@ -274,6 +338,91 @@ export const DEFAULT_CONFIG: AppConfig = {
     password: "92668751" 
   }
 };
+
+export const PRICING_DATA: PricingProduct[] = [
+  {
+    name: "Melonity",
+    icon: "fa-droplet", // Water
+    subCategories: [
+      {
+        name: "Worldwide",
+        prices: [
+          { duration: "1 day", price: "1.93 USD" },
+          { duration: "7 days", price: "5.7 USD" },
+          { duration: "30 days", price: "11 USD" },
+          { duration: "90 days", price: "33 USD" },
+          { duration: "180 days", price: "60 USD" }
+        ]
+      },
+      {
+        name: "Region",
+        prices: [
+          { duration: "1 day", price: "1.2 USD" },
+          { duration: "7 days", price: "5.1 USD" },
+          { duration: "30 days", price: "11 USD" },
+          { duration: "90 days", price: "30 USD" },
+          { duration: "180 days", price: "54 USD" }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Hake.me",
+    icon: "fa-fire", // Fire
+    prices: [
+      { duration: "1 Day", price: "1.75$" },
+      { duration: "7 Days", price: "4.25$" },
+      { duration: "30 Days", price: "11.5$" },
+      { duration: "90 Days", price: "30.5$" },
+      { duration: "180 Days", price: "57.75$" }
+    ]
+  },
+  {
+    name: "Divine",
+    icon: "fa-wind", // Air
+    prices: [
+      { duration: "7 Days", price: "2.75$" },
+      { duration: "14 Days", price: "5$" },
+      { duration: "30 Days", price: "9.5$" },
+      { duration: "90 Days", price: "25$" },
+      { duration: "180 Days", price: "49$" }
+    ]
+  },
+  {
+    name: "Umbrella Dota",
+    icon: "fa-mountain", // Earth
+    prices: [
+      { duration: "1 DAY", price: "0.95$" },
+      { duration: "7 DAYS", price: "4.25$" },
+      { duration: "14 DAYS", price: "7$" },
+      { duration: "30 DAYS", price: "10$" },
+      { duration: "90 DAYS", price: "29$" },
+      { duration: "180 DAYS", price: "55$" },
+      { duration: "lifetime", price: "360$" }
+    ]
+  },
+  {
+    name: "Umbrella Deadlock",
+    icon: "fa-bolt", // Lightning
+    prices: [
+      { duration: "1 DAY", price: "1.8$" },
+      { duration: "7 DAYS", price: "6$" },
+      { duration: "14 DAYS", price: "9.5$" },
+      { duration: "30 DAYS", price: "12.8$" },
+      { duration: "90 DAYS", price: "38$" },
+      { duration: "180 DAYS", price: "68$" },
+      { duration: "lifetime", price: "535$" }
+    ]
+  },
+  {
+    name: "Dota 2 Accounts",
+    icon: "fa-gem", // Crystal/Earth
+    prices: [
+      { duration: "Ranked Ready", price: "Varies" },
+      { duration: "TBD Rank Open", price: "Varies" }
+    ]
+  }
+];
 
 export const CATEGORY_ICONS: Record<string, string> = {
   "Credit & Debit Card": "fa-credit-card",

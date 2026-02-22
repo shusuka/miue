@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'motion/react';
 import { PRODUCTS } from '../constants';
 import { AppConfig, ProductStyle } from '../types';
 
@@ -16,7 +17,8 @@ const DEFAULT_COLORS: Record<string, string> = {
   "Divine": "from-amber-900/70",
   "Hake": "from-sky-900/70",
   "Umbrella Deadlock": "from-fuchsia-900/70",
-  "DotaAccount": "from-brand-dota/60"
+  "DotaAccount": "from-brand-dota/60",
+  "FoxHole": "from-orange-900/70"
 };
 
 const PRODUCT_DESCRIPTIONS: Record<string, string> = {
@@ -25,15 +27,51 @@ const PRODUCT_DESCRIPTIONS: Record<string, string> = {
     "Divine": "Elegant solution for tactical advantage",
     "Hake": "Comes with a full user scripts using Lua.",
     "Umbrella Deadlock": "Third-person shooter and multiplayer online battle arena",
-    "DotaAccount": "The best solution for Dota Account Rank"
+    "DotaAccount": "The best solution for Dota Account Rank",
+    "FoxHole": "A player that contributes to the war effort"
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5
+    }
+  }
 };
 
 export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin, onEditStyle }) => {
   return (
     <main id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-20">
-      <h2 className="text-3xl font-extrabold text-center mb-12">Choose Product</h2>
+      <motion.h2 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-3xl font-extrabold text-center mb-12"
+      >
+        Choose Product
+      </motion.h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch"
+      >
         {PRODUCTS.map(product => {
            const style: ProductStyle | undefined = config.productStyles[product];
            const hasCustomBg = !!style?.bgUrl;
@@ -52,16 +90,12 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
               : '';
 
            return (
-            <section 
+            <motion.section 
                 key={product} 
+                variants={itemVariants}
                 className={`rounded-3xl overflow-hidden shadow-2xl border border-white/10 hover:border-brand-accent transition-all duration-500 group relative flex flex-col h-full ${bgClass}`}
                 style={cardContainerStyle}
             >
-                {/* 
-                  REMOVED BLUR AND TRANSPARENT OVERLAY 
-                  to make the image background clear as requested.
-                */}
-                
                 {/* Vignette/Gradient purely for text readability at the bottom */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-90 pointer-events-none"></div>
 
@@ -80,7 +114,7 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
 
                     {/* Content Section with a more focused background for readability */}
                     <div className="p-6 flex flex-col flex-grow bg-gradient-to-b from-transparent to-black/80">
-                        <h3 className="text-2xl font-bold mb-2 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                        <h3 className="text-3xl font-bold mb-2 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
                             {product === 'DotaAccount' ? 'Dota 2 Accounts' : product}
                         </h3>
                         <p className="text-gray-100 mb-8 text-sm flex-grow leading-relaxed drop-shadow-[0_2px_3px_rgba(0,0,0,1)] font-medium">
@@ -95,10 +129,10 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
                         </button>
                     </div>
                 </div>
-            </section>
+            </motion.section>
            );
         })}
-      </div>
+      </motion.div>
     </main>
   );
 };

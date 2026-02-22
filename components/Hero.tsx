@@ -39,8 +39,8 @@ export const Hero: React.FC<HeroProps> = ({
         </h1>
 
         <p className="mt-3 max-w-md mx-auto text-base text-gray-300/80 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl mb-10 leading-relaxed">
-          Official reseller of premium digital tools for Dota 2 & Deadlock.
-          Experience the most stable solutions in the market.
+          Official reseller of premium digital product.
+          Experience the most stable solutions, cheapest and fast delivery in the market.
         </p>
 
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4">

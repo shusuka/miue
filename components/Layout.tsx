@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppConfig } from '../types';
-
-interface LayoutProps {
-  children: React.ReactNode;
-  config: AppConfig;
-  onAdminTrigger: () => void;
-  onOpenPaymentMethods: () => void;
-  onOpenRequestConfig: () => void;
-  onOpenPriceMenu: () => void;
-  onOpenGiveAway: () => void;
-  onOpenRefundPolicy: () => void;
-  onOpenPrivacyPolicy: () => void;
-}
+import { LayoutProps } from '../types';
 
 export const Layout: React.FC<LayoutProps> = ({ 
   children, 

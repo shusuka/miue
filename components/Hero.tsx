@@ -1,14 +1,6 @@
 
 import React from 'react';
-import { AppConfig } from '../types';
-
-export interface HeroProps {
-  config: AppConfig;
-  onOpenPaymentMethods: () => void;
-  onOpenRequestConfig: () => void;
-  onOpenPriceMenu: () => void;
-  onOpenHowToBuy: () => void;
-}
+import { HeroProps } from '../types';
 
 export const Hero: React.FC<HeroProps> = ({ 
   config, 

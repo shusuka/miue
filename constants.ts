@@ -385,6 +385,22 @@ export const DEFAULT_CONFIG: AppConfig = {
     "DotaAccount_TBD Rank Open": {
       "crypto": "https://miuwmiaw.selly.store/product/21419568",
       "fiat": ""
+    },
+    "FoxHole_1 Day": {
+      "crypto": "https://miuwmiaw.selly.store/product/1ec2208f",
+      "fiat": ""
+    },
+    "FoxHole_3 Days": {
+      "crypto": "https://miuwmiaw.selly.store/product/bd6f6cf9",
+      "fiat": ""
+    },
+    "FoxHole_7 Days": {
+      "crypto": "https://miuwmiaw.selly.store/product/ab9a1f19",
+      "fiat": ""
+    },
+    "FoxHole_30 Days": {
+      "crypto": "https://miuwmiaw.selly.store/product/7f7ceca8",
+      "fiat": ""
     }
   },
   adminAuth: {

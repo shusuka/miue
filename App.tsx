@@ -162,6 +162,7 @@ const App: React.FC = () => {
       onOpenRefundPolicy={() => setShowRefundPolicy(true)}
       onOpenPrivacyPolicy={() => setShowPrivacyPolicy(true)}
     >
+      {/* Main Hero Section */}
       <Hero 
         config={config}
         onOpenPaymentMethods={() => setShowPaymentMethods(true)}

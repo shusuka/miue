@@ -62,14 +62,6 @@ export interface LayoutProps {
   onOpenPrivacyPolicy: () => void;
 }
 
-export interface HeroProps {
-  config: AppConfig;
-  onOpenPaymentMethods: () => void;
-  onOpenRequestConfig: () => void;
-  onOpenPriceMenu: () => void;
-  onOpenHowToBuy: () => void;
-}
-
 export interface AppConfig {
   whatsappNumber: string;
   discordLink: string;

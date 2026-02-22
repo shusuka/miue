@@ -167,7 +167,7 @@ const App: React.FC = () => {
         config={config}
         onOpenPaymentMethods={() => setShowPaymentMethods(true)}
         onOpenRequestConfig={() => setShowRequestConfig(true)}
-        onOpenPriceMenu={() => setShowPriceMenu(true)}
+        onOpenGiveAway={() => addToast("Tunggu event!", "info")}
         onOpenHowToBuy={() => setShowHowToBuy(true)}
       />
       

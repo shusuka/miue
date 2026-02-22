@@ -50,6 +50,26 @@ export interface PricingProduct {
   subCategories?: PricingSubCategory[];
 }
 
+export interface LayoutProps {
+  children: React.ReactNode;
+  config: AppConfig;
+  onAdminTrigger: () => void;
+  onOpenPaymentMethods: () => void;
+  onOpenRequestConfig: () => void;
+  onOpenPriceMenu: () => void;
+  onOpenGiveAway: () => void;
+  onOpenRefundPolicy: () => void;
+  onOpenPrivacyPolicy: () => void;
+}
+
+export interface HeroProps {
+  config: AppConfig;
+  onOpenPaymentMethods: () => void;
+  onOpenRequestConfig: () => void;
+  onOpenPriceMenu: () => void;
+  onOpenHowToBuy: () => void;
+}
+
 export interface AppConfig {
   whatsappNumber: string;
   discordLink: string;

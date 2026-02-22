@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { PRODUCTS } from '../constants';
 import { AppConfig, ProductStyle } from '../types';
 
@@ -114,7 +114,7 @@ export const ProductList: React.FC<ProductListProps> = ({ config, onBuy, isAdmin
 
                     {/* Content Section with a more focused background for readability */}
                     <div className="p-6 flex flex-col flex-grow bg-gradient-to-b from-transparent to-black/80">
-                        <h3 className="text-3xl font-bold mb-2 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+                        <h3 className="text-2xl font-bold mb-2 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
                             {product === 'DotaAccount' ? 'Dota 2 Accounts' : product}
                         </h3>
                         <p className="text-gray-100 mb-8 text-sm flex-grow leading-relaxed drop-shadow-[0_2px_3px_rgba(0,0,0,1)] font-medium">

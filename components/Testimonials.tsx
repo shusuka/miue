@@ -1,10 +1,33 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Review } from '../types';
 
 interface TestimonialsProps {
   reviews: Review[];
   onWriteReview: () => void;
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, scale: 0.95, y: 20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.4
+    }
+  }
+};
 
 export const Testimonials: React.FC<TestimonialsProps> = ({ reviews, onWriteReview }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,7 +55,13 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ reviews, onWriteRevi
 
   return (
     <section id="testimonials" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
-      <div className="flex flex-col items-center mb-12">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="flex flex-col items-center mb-12"
+      >
         <h2 className="text-3xl font-extrabold text-center">Trusted by Gamers</h2>
         <p className="text-gray-300/70 text-sm mt-2">Real reviews from our community.</p>
 
@@ -42,42 +71,68 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ reviews, onWriteRevi
         >
           <i className="fa-regular fa-pen-to-square mr-2"></i> Write a Review
         </button>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {displayReviews.length === 0 ? (
-          <p className="col-span-3 text-center text-gray-400 italic py-10">No reviews yet. Be the first!</p>
-        ) : (
-          displayReviews.map((r) => (
-            <div key={r.id} className="bg-black/20 p-6 rounded-2xl border border-white/10 animate-fadeIn">
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <i 
-                      key={i} 
-                      className={`${i < r.rating ? 'fa-solid text-yellow-400' : 'fa-regular text-gray-600'} fa-star text-xs`}
-                    ></i>
-                  ))}
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+      >
+        <AnimatePresence mode="popLayout">
+          {displayReviews.length === 0 ? (
+            <motion.p 
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="col-span-3 text-center text-gray-400 italic py-10"
+            >
+              No reviews yet. Be the first!
+            </motion.p>
+          ) : (
+            displayReviews.map((r) => (
+              <motion.div 
+                key={r.id} 
+                variants={itemVariants}
+                layout
+                className="bg-black/20 p-6 rounded-2xl border border-white/10"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <i 
+                        key={i} 
+                        className={`${i < r.rating ? 'fa-solid text-yellow-400' : 'fa-regular text-gray-600'} fa-star text-xs`}
+                      ></i>
+                    ))}
+                  </div>
+                  <span className="text-[10px] bg-white/5 px-2 py-1 rounded-full text-gray-200 border border-white/10">
+                    {r.product}
+                  </span>
                 </div>
-                <span className="text-[10px] bg-white/5 px-2 py-1 rounded-full text-gray-200 border border-white/10">
-                  {r.product}
-                </span>
-              </div>
-              <p className="text-gray-200/90 text-sm italic mb-4">"{r.comment}"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-brand-accent/15 text-brand-accent rounded-full flex items-center justify-center text-sm font-bold uppercase border border-brand-accent/20">
-                  {(r.name && r.name.charAt(0)) || '?'}
+                <p className="text-gray-200/90 text-sm italic mb-4">"{r.comment}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-brand-accent/15 text-brand-accent rounded-full flex items-center justify-center text-sm font-bold uppercase border border-brand-accent/20">
+                    {(r.name && r.name.charAt(0)) || '?'}
+                  </div>
+                  <div className="text-sm font-bold text-white">{r.name || 'Anonymous'}</div>
                 </div>
-                <div className="text-sm font-bold text-white">{r.name || 'Anonymous'}</div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+              </motion.div>
+            ))
+          )}
+        </AnimatePresence>
+      </motion.div>
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-8 animate-fadeIn">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex justify-center items-center gap-2 mt-8"
+        >
             {/* Prev Button */}
             <button
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -134,7 +189,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ reviews, onWriteRevi
             >
                 <i className="fa-solid fa-chevron-right text-xs"></i>
             </button>
-        </div>
+        </motion.div>
       )}
     </section>
   );

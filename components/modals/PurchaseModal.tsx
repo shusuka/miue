@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { PRODUCT_DURATIONS, DEFAULT_LINKS, DEFAULT_CONFIG } from '../../constants';
+import { PRODUCT_DURATIONS, PRODUCT_PRICES, DEFAULT_LINKS, DEFAULT_CONFIG } from '../../constants';
 import { AppConfig } from '../../types';
 
 interface PurchaseModalProps {
@@ -9,6 +9,7 @@ interface PurchaseModalProps {
   config: AppConfig;
   onOpenPrivacy: () => void;
   onOpenRefund: () => void;
+  flashSaleTime: number;
 }
 
 export const PurchaseModal: React.FC<PurchaseModalProps> = ({ 
@@ -16,26 +17,17 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
   onClose, 
   config,
   onOpenPrivacy,
-  onOpenRefund
+  onOpenRefund,
+  flashSaleTime
 }) => {
-  const [timeLeft, setTimeLeft] = useState(900); // 15 minutes
   const [selectedDuration, setSelectedDuration] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
 
-  useEffect(() => {
-    if (!product) return;
-    setTimeLeft(900);
-    const interval = setInterval(() => {
-      setTimeLeft(prev => (prev > 0 ? prev - 1 : 900));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [product]);
-
   if (!product) return null;
 
-  const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-  const seconds = (timeLeft % 60).toString().padStart(2, '0');
+  const minutes = Math.floor(flashSaleTime / 60).toString().padStart(2, '0');
+  const seconds = (flashSaleTime % 60).toString().padStart(2, '0');
 
   const durations = PRODUCT_DURATIONS[product] || PRODUCT_DURATIONS["default"];
 
@@ -126,14 +118,16 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
                       key={d}
                       onClick={() => { setSelectedDuration(d); setShowPaymentOptions(false); }}
                       className={`
-                        border rounded-lg py-3 text-sm font-medium transition
+                        border rounded-lg py-3 px-1 text-sm font-bold transition flex flex-col items-center justify-center leading-tight
                         ${selectedDuration === d 
                           ? 'bg-brand-accent border-brand-accent text-white shadow-[0_0_18px_rgba(139,92,246,0.35)]' 
                           : 'border-white/10 text-gray-200 hover:border-brand-accent hover:text-white'}
                         ${isFullWidth ? 'col-span-3 border-brand-accent/40 bg-brand-accent/10 text-brand-accent' : 'col-span-1'}
                       `}
                     >
-                      {d}
+                      <div className="flex flex-wrap items-center justify-center gap-x-1">
+                        <span className="whitespace-nowrap">{d}</span>
+                      </div>
                     </button>
                   );
                 })}
